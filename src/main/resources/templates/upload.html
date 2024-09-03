@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>파일업로드</h3>
+    <!-- 서버에 파일을 업로드 하기 위해 enctype을 지정 -->
+    <form action="/uploadAction" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" id="" />
+      <button>전송</button>
+    </form>
+    <hr />
+    <h2>파일업로드 - multiple</h2>
+    <form
+      action="/uploadActionMultiple"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="uploadFiles" id="" multiple />
+      <button>전송</button>
+    </form>
+    <hr />
+    <h3>파일 목록</h3>
+    <!-- <div th:text="${list}"></div> -->
+    <th:block th:if="${#lists.isEmpty(list)}">
+      파일목록 비어 있음
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(list)}">
+      파일목록 있음
+      <table>
+        <tr>
+          <td>oName</td>
+          <td>sName</td>
+          <td>path</td>
+          <td>regdate</td>
+        </tr>
+        <th:block th:each="upload:${list}">
+          <tr>
+            <td th:text="${upload.oname}"></td>
+            <td th:text="${upload.sname}"></td>
+            <td th:text="${upload.path}"></td>
+            <td th:text="${upload.regdate}"></td>
+          </tr>
+        </th:block>
+      </table>
+    </th:block>
+
+
+
+    <div th:text="${msg}"></div>
+  </body>
+</html>
