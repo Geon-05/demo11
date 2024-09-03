@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo11.mapper.MemberMapper">
+
+  <!-- selectMemberList --> 
+
+  <select id="selectMemberList" resultType="MemberDto">
+    select *
+    from (
+      select rownum rn, t.*
+      from (
+        select *
+        from tb_member
+        where 1=1
+        <!-- 동적쿼리 : 사용자의 요청에 의해서 변경되는 쿼리 -->
+          <if test="searchWord != ''">
+              <if test="searchField == 'regdate'">
+                and to_char(regdate, 'yyyy-mm-dd') = #{searchWord}
+              </if>
+              <if test="searchField != 'regdate'">
+                <!-- like 사용시 %를 문자열 처리 후 연결하여 사용 할 수 있다. -->
+                and upper(${searchField}) like '%'||upper(#{searchWord})||'%'
+              </if>
+            </if>
+        order by mem_no desc
+      ) t)
+    where rn between #{pageNo} * #{amount} - (#{amount} - 1)
+    and #{pageNo} * #{amount}
+  </select>
+
+  <!-- selectTotalCnt --> 
+
+  <select id="selectTotalCnt">
+    select count(*)
+    from tb_member
+    where 1=1
+    <!-- 동적쿼리 : 사용자의 요청에 의해서 변경되는 쿼리 -->
+    <if test="searchWord != ''">
+      <if test="searchField == 'regdate'">
+        and to_char(regdate, 'yyyy-mm-dd') = #{searchWord}
+      </if>
+      <if test="searchField != 'regdate'">
+        <!-- like 사용시 %를 문자열 처리 후 연결하여 사용 할 수 있다. -->
+        and upper(${searchField}) like '%'||upper(#{searchWord})||'%'
+      </if>
+    </if>
+  </select>
+</mapper>
