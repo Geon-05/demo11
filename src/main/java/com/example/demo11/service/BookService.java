@@ -39,4 +39,8 @@ public class BookService {
   public BookDto selectBook(String book_no) {
     return mapper.selectBook(book_no);
   }
+
+  public int insertBook(BookDto book) {
+    return mapper.insertBook(book);
+  }
 }

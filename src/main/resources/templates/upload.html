@@ -33,15 +33,16 @@
       <table>
         <tr>
           <td>oName</td>
-          <td>sName</td>
-          <td>path</td>
           <td>regdate</td>
         </tr>
         <th:block th:each="upload:${list}">
+          <!-- 
+        /download : 서버에 있는 파일을 다운로드
+        uploadDto객체의 필드값을 이용해서 fileName과 oname을 전달
+        fileName : /path/sname (path경로를 포함하는 경로)
+        oname : oname -->
           <tr>
-            <td th:text="${upload.oname}"></td>
-            <td th:text="${upload.sname}"></td>
-            <td th:text="${upload.path}"></td>
+            <td><a th:text="${upload.oname}" th:href="@{/download(fileName='/' + ${upload.path} + '/' + ${upload.sname},oname=${upload.oname})}"></a></td>
             <td th:text="${upload.regdate}"></td>
           </tr>
         </th:block>

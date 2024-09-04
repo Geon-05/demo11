@@ -72,6 +72,7 @@
           <button class="btn btn-outline-secondary" type="submit">검색</button>
         </div>
       </form>
+      <button onclick="location.href='/book/write'">등록</button>
       <!-- 테이블 -->
       <table class="table">
         <thead>
@@ -91,8 +92,13 @@
           <th:block th:unless="${#lists.isEmpty(map.list)}">
           <th:block th:each="book:${map.list}">
             <tr>
-              <th scope="row"><a th:href="@{/book/detail(book_no=${book_no})}" th:text="${book.book_no}"></a></th>
-              <td th:text="${book.title}"></td>
+              <th scope="row" th:text="${book.book_no}"></th>
+              <td>
+                <a th:text="${book.title}" th:href="@{/book/detail(book_no=${book.book_no})}"></a>
+                <th:block th:unless="${isNew}">
+                  <i class="bi bi-arrow-up"></i>
+                </th:block>
+              </td>
               <td th:text="${book.author}"></td>
               <td th:text="${book.regdate}"></td>
             </tr>

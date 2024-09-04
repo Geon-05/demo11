@@ -37,7 +37,7 @@
               and ${searchField} = #{searchWord}
             </if>
             </if>
-        order by book_no desc
+        order by regdate desc
       ) t)
     where rn between #{pageNo} * #{amount} - (#{amount} - 1)
     and #{pageNo} * #{amount}
@@ -67,4 +67,10 @@
   <select id="selectBook" resultType="BookDto">
     select * from tb_book where book_no=#{book_no}
   </select>
+
+  <!-- insertBook --> 
+
+  <insert id="insertBook">
+    insert into tb_book (book_no, title, author, price, img_f_no) values('B'||lpad(seq_tb_book.nextval,5,0),#{title},#{author},#{price},#{img_f_no})
+  </insert>
 </mapper>

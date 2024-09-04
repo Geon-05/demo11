@@ -83,7 +83,7 @@ public class UploadMapperTest {
 
   @Test
   void testSelectUpload() {
-    List<UploadDto> list = mapper.selectUpload("1");
+    List<UploadDto> list = mapper.selectUpload(1);
     assertEquals(1, list.size());
   }
 

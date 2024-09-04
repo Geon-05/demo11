@@ -15,15 +15,11 @@
     <header th:insert="~{/fragments::header}"></header>
     <main>
       <h3>도서상세</h3>
+      <div th:text="${imgFileList[0]}"></div>
       <th:block th:if="${book != null}">
         <table>
           <tr>
-            <td rowspan="5">
-              <th:block th:unless="${#lists.isEmpty(imgFileList)}">
-                <!-- <div th:text="${imgFileList[0]}"></div> -->
-                <img th:src="@{/download(fileName='/' + ${imgFileList[0].path} + '/' + ${imgFileList[0].sname}, oname=${imgFileList[0].oname})}" width="200px" height="150px" alt="첨부파일">
-              </th:block>
-            </td>
+            <td rowspan="5"></td>
             <th>도서 번호</th>
             <td th:text="${book.book_no}"></td>
           </tr>
@@ -43,8 +39,8 @@
             <th>출판사</th>
             <td th:text="${book.regdate}"></td>
           </tr>
-          <th:block th:if="${imgFileList != null}">
-          <th:block th:each="file:${imgFileList}">
+          <th:block th:if="${imgFileLIst != null}">
+          <th:block th:each="file:${imgFileLIst}">
             <tr>
               <th>첨부파일</th>
               <td><a th:href="@{/download(fileName='/' + ${file.path} + '/' + ${file.sname}, oname=${file.oname})}" th:text="${file.oname}"></a></td>
@@ -57,12 +53,6 @@
         </th:block>
         </table>
       </th:block>
-
-      <hr>
-
-      <button class="btn btn-primary">수정</button>
-      <button class="btn btn-danger">삭제</button>
-      <button class="btn btn-info">리스트</button>
     </main>
     <footer th:insert="~{/fragments::footer}"></footer>
   </body>

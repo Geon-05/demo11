@@ -34,4 +34,19 @@ public class BookMapperTest {
     BookDto book = mapper.selectBook("B00002");
     assertNotNull(book);
   }
+
+
+
+  @Test
+  void testInsertBook() {
+    BookDto book = new BookDto();
+    book.setTitle("매퍼테스트중");
+    book.setAuthor("작가님테스트중");
+    book.setPrice(123456);
+    book.setImg_f_no(123);
+    
+    int insertBook = mapper.insertBook(book);
+
+    assertEquals(1, insertBook);
+  }
 }

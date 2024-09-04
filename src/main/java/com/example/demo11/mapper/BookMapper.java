@@ -16,4 +16,6 @@ public interface BookMapper {
   public int selectTotalCnt(SearchDto searchDto);
 
   public BookDto selectBook(String book_no);
+
+  public int insertBook(BookDto book);
 }
