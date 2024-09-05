@@ -10,13 +10,13 @@
       <h1 th:text="${pageDto}">fragment</h1>
     </div>
 
+    <!-- 페이지네이션 -->
     <div th:fragment="pageNavi">
-      <!-- 페이지네이션 -->
       <th:block th:if="${map!=null}">
         <nav aria-label="...">
           <ul class="pagination justify-content-center">
             <th:block th:if="${map.pageDto.prev}">
-              <li class="page-item disabled">
+              <li class="page-item">
                 <a
                   class="page-link"
                   th:onclick="go([[${map.pageDto.startPage-1}]])"
@@ -24,9 +24,7 @@
                 >
               </li>
             </th:block>
-
-            <!-- #numbers.sequence() : 숫자배열을 만들어주는 함수
-        생성된 숫자 배열로 부터 하나씩 꺼내서 변수에 저장 하고 반복  -->
+            
             <th:block
               th:each="index:${#numbers.sequence(map.pageDto.startPage,map.pageDto.endPage)}"
             >
@@ -43,7 +41,7 @@
               <li class="page-item">
                 <a
                   class="page-link"
-                  th:onclick="go([[${map.pageDto.startPage+1}]])"
+                  th:onclick="go([[${map.pageDto.endPage+1}]])"
                   >▶</a
                 >
               </li>
@@ -57,8 +55,18 @@
       </th:block>
     </div>
 
+    <!-- 네비게이션바 -->
     <div th:fragment="header">
-      <!-- 네비게이션바 -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="/css/common.css">
+
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <img
@@ -126,6 +134,7 @@
       </nav>
     </div>
 
+    <!-- footer -->
     <div th:fragment="footer">
       <hr />
       copywriter 확인

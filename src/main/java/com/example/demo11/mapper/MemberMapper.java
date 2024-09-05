@@ -12,4 +12,10 @@ public interface MemberMapper {
   public List<MemberDto> selectMemberList(SearchDto searchDto);
 
   public int selectTotalCnt(SearchDto searchDto);
+
+  public MemberDto login(MemberDto member);
+
+  public int insertMember(MemberDto member);
+
+  public int selectCheckId(String id);
 }

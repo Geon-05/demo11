@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo11.dto.MemberDto;
@@ -16,6 +17,33 @@ import com.example.demo11.mapper.MemberMapper;
 public class MemberService {
   @Autowired
   MemberMapper mapper;
+
+  @Autowired
+  BCryptPasswordEncoder encoder;
+
+  public MemberDto login(MemberDto member) {
+    MemberDto loginMember = mapper.login(member);
+    // 사용자의 비밀번호 확인
+    if (encoder.matches(member.getPw(), loginMember.getPw())) {
+      return loginMember;
+    } else {
+      return null;
+    }
+    // return mapper.login(member);
+  }
+
+  public int insertMember(MemberDto member) {
+    // 비밀번호를 암호화 하여 저장 할 수 있도록 암호화 로직을 추가
+    String encodePw = encoder.encode(member.getPw());
+    member.setPw(encodePw);
+    return mapper.insertMember(member);
+  }
+
+
+  public int selectCheckId(String id) {
+    return mapper.selectCheckId(id);
+  }
+
 
   public Map<String, Object> selectMemberList(SearchDto searchDto){
     // 페이지블럭을 생성 - pageDto

@@ -1,0 +1,10 @@
+main {
+  margin: 10px;
+}
+
+.msgbox {
+  color: red;
+  padding-left: 20px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}

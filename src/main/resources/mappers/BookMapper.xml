@@ -7,7 +7,7 @@
   <!-- selectBookList --> 
 
   <select id="selectBookList" resultType="BookDto">
-    select *
+    select list.*, decode(to_char(sysdate, 'yyyymmdd'),to_char(regdate, 'yyyymmdd'),'true','false') isNew
     from (
       select rownum rn, t.*
       from (
@@ -38,7 +38,8 @@
             </if>
             </if>
         order by regdate desc
-      ) t)
+      ) t
+      ) list
     where rn between #{pageNo} * #{amount} - (#{amount} - 1)
     and #{pageNo} * #{amount}
   </select>  

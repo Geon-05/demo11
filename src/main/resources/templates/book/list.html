@@ -20,14 +20,6 @@
         margin: 0 auto;
       }
     </style>
-  <script>
-    // searchForm을 이용해 페이지 요청 정보를 서버에 전달
-    function go(pageNo){
-      console.log(pageNo);
-      document.querySelector("#pageNo").value = pageNo;
-      searchForm.submit();
-    }
-  </script>
   </head>
   <body>
     
@@ -50,15 +42,10 @@
         2. 파라메터가 전달 되지 않은경우의 처리가 필요함
         그래서 param.pageNo보다는 pageDto.searchDto.pageNo를 사용함
           -->
-        pageNo : <input type="text" name="pageNo" id="pageNo" value="1" th:value="${map.pageDto.searchDto.pageNo}">
-        <br>
-        amount : <input type="text" name="amount" id="amount" value="10" th:value="${map.pageDto.searchDto.amount}">
-        <br>
-        <button>전송</button>
+        <input type="hidden" name="pageNo" id="pageNo" value="1" th:value="${map.pageDto.searchDto.pageNo}">
+        <input type="hidden" name="amount" id="amount" value="10" th:value="${map.pageDto.searchDto.amount}">
 
         <!-- map : <span th:text="${map.pageDto.searchDto.searchField == }"></span> -->
-
-        <div th:text="${map.pageDto.searchDto.searchField == 'author'}"></div>
         <!-- 검색필드 : 파라메터 유지 확인!!!!!! -->
         <div class="input-group" id="searchBox">
           <select class="form-select" aria-label="Default select example" name="searchField">
@@ -72,7 +59,7 @@
           <button class="btn btn-outline-secondary" type="submit">검색</button>
         </div>
       </form>
-      <button onclick="location.href='/book/write'">등록</button>
+      <button onclick="location.href='/book/write'" class="btn btn-primary">등록</button>
       <!-- 테이블 -->
       <table class="table">
         <thead>
@@ -95,7 +82,7 @@
               <th scope="row" th:text="${book.book_no}"></th>
               <td>
                 <a th:text="${book.title}" th:href="@{/book/detail(book_no=${book.book_no})}"></a>
-                <th:block th:unless="${isNew}">
+                <th:block th:if="${book.isNew}">
                   <i class="bi bi-arrow-up"></i>
                 </th:block>
               </td>

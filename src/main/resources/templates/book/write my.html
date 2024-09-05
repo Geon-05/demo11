@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    // 화면이 모두 로딩된 후 실행
+    window.addEventListener("load", function () {
+      let btn_write = document.querySelector("#btn_write");
+
+      // 버튼을 선택 하고 버튼에 이베트를 추가
+      btn_write.addEventListener("click", function () {
+        if (checkFom()) {
+          writeForm.submit();
+        }
+      });
+
+      function checkFom() {
+        let title = document.querySelector("#title");
+        let author = document.querySelector("#author");
+        let price = document.querySelector("#price");
+        let file = document.querySelector("#file");
+        let extensions = ["jpg", "gif", "png"];
+
+        let res = true;
+
+        console.log("도서등록");
+        // 오류 발생시 포커스 넣어주기
+        // 입력체크 - 완료
+        // 가격 숫자체크, 숫자가 아니면 삭제 - 완료
+        // 파일 형식체크, 파일 크기 - 완료
+
+        // 5MB
+        const maxSize = 1024 * 1024 * 5;
+
+        if (title.value == "") {
+          document.querySelector("#title + .msgbox").innerText =
+            "도서명은 입력 필수 입니다.";
+          res = false;
+        } else {
+          document.querySelector("#title + .msgbox").innerText =
+            "";
+        }
+
+        if (author.value == "") {
+          document.querySelector("#author + .msgbox").innerText =
+            "작가명은 입력 필수 입니다.";
+          res = false;
+        } else {
+          document.querySelector("#author + .msgbox").innerText =
+            "";
+        }
+
+        if (Number(price.value) == 0) {
+          document.querySelector("#price + .msgbox").innerText =
+            "금액은 입력 필수 입니다.";
+          res = false;
+        } else if (isNaN(Number(price.value))) {
+          document.querySelector("#price + .msgbox").innerText =
+            "금액은 숫자만 입력가능합니다.";
+          price.value = 0;
+          res = false;
+        } else {
+          document.querySelector("#price + .msgbox").innerText =
+            "";
+        }
+
+        if (file.files.length == 0) {
+          let file_res = confirm("첨부파일을 등록하지 않습니까?");
+          if (!file_res) {
+            res = false
+          }
+        } else {
+          for (let i = 0; i < file.files.length; i++) {
+            if (!extensions.includes(file.files[i].name.split(".").pop())) {
+              alert("파일의 확장자를 확인하세요.");
+              res = false;
+            } else if (file.files[i].size > maxSize) {
+              alert("파일의 사이즈가 5MB이하인지 확인하세요.");
+              res = false;
+            }
+          }
+        }
+
+        return res;
+      }
+    });
+
+    // 유효성 검사
+    // 데이터의 무결성 유지를 위해서 테이블에는 많은 제약조건이 걸려 있다
+    // 화면에서 값을 넘기기 전, 입력 가능한 데이터인지 체크
+  </script>
+  <body>
+    <header th:insert="~{/fragments::header}"></header>
+    <main>
+      <h3>도서등록</h3>
+      <form
+        action="/book/writeAction"
+        method="post"
+        enctype="multipart/form-data"
+        name="writeForm"
+      >
+        <table>
+          <tr>
+            <th>도서명</th>
+            <td>
+              <input type="text" name="title" id="title" />
+              <span class="msgbox"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>작가</th>
+            <td>
+              <input type="text" name="author" id="author" />
+              <span class="msgbox"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>가격</th>
+            <td>
+              <input type="text" name="price" id="price" />
+              <span class="msgbox"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>메인이미지</th>
+            <td>
+              <input type="file" name="file" id="file" multiple /><br />
+              * jpg, gif, png 파일만 업로드 가능 합니다.<br />
+              * 파일의 최대크기는 1MB입니다.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <button type="button" class="btn btn-primary" id="btn_write">
+                등록
+              </button>
+              <button type="reset" class="btn btn-danger">초기화</button>
+              <button
+                type="button"
+                onclick="location.href='/book/list'"
+                class="btn btn-info"
+              >
+                리스트로 이동
+              </button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </main>
+    <footer th:insert="~{/fragments::footer}"></footer>
+  </body>
+</html>

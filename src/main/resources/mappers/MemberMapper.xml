@@ -47,4 +47,23 @@
       </if>
     </if>
   </select>
+
+  
+  <select id="login" resultType="MemberDto">
+    select * from tb_member where id=#{id}
+  </select>  
+
+  <!-- insertMember --> 
+
+  <insert id="insertMember">
+    insert into tb_member (mem_no, id, pw, name) 
+                values ('M'||lpad(seq_tb_mem.nextval,5,0), #{id}, #{pw}, #{name})
+  </insert>
+
+  
+  <!-- selectCheckId --> 
+
+  <select id="selectCheckId">
+    select count(*) from tb_member where id=#{id}
+  </select>
 </mapper>
